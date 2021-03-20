@@ -1,6 +1,7 @@
 # Import map for ES modules
 
-This module generates an import-map script tag to be used with JS modules.
+This module generates an import-map script tag to be used with JS modules.<br>
+Cross browser support is provided by https://github.com/guybedford/es-module-shims.
 
 ## Install
 
