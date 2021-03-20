@@ -1,0 +1,20 @@
+{
+    "name": "ubermanu/module-es-import-map",
+    "description": "Auto generated import-map for ES modules",
+    "type": "magento2-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emmanuel Vodor",
+            "email": "manu@paca.happy-dev.fr"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ubermanu\\EsImportMap\\": ""
+        }
+    }
+}
