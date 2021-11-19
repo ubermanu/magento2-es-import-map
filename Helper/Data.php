@@ -48,11 +48,10 @@ class Data extends AbstractHelper
     {
         $map = [];
 
-        foreach ($this->moduleList->getNames() as $module) {
-            $map['imports'][$module . '/'] = $this->getViewModuleUrl($module) . '/';
-        }
+        // Set the import root to target the theme asset dir
+        $map['imports']['/'] = $this->assetRepo->getUrl('') . '/';
 
-        // TODO: Inject the import-map.json file from the modules
+        // Inject the import-map.json file from the modules
         foreach ($this->moduleList->getNames() as $module) {
             $map = array_merge_recursive($map, $this->getViewModuleImportMap($module));
         }
@@ -61,24 +60,8 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get the public url of a module.
-     *
-     * @param string $module
-     * @param array $params
-     * @return string
-     */
-    public function getViewModuleUrl($module, $params = [])
-    {
-        $params = array_merge([
-            '_secure' => $this->_getRequest()->isSecure(),
-            'module' => $module
-        ], $params);
-
-        return $this->assetRepo->getUrlWithParams('/', $params);
-    }
-
-    /**
      * Get the custom import map for a module.
+     * The file contents should match the import-map spec from the W3C.
      *
      * @param string $module
      * @return array
