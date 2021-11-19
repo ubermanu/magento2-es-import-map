@@ -1,5 +1,5 @@
 {
-    "name": "ubermanu/module-es-import-map",
+    "name": "ubermanu/magento2-es-import-map",
     "description": "Auto generated import-map for ES modules",
     "type": "magento2-module",
     "license": "MIT",
@@ -16,5 +16,7 @@
         "psr-4": {
             "Ubermanu\\EsImportMap\\": ""
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
