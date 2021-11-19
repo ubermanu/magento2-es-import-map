@@ -4,7 +4,10 @@ namespace Ubermanu\EsImportMap\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Module\ModuleList;
+use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
+use Magento\Framework\View\Asset\File\NotFoundException;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 
 class Data extends AbstractHelper
@@ -19,14 +22,21 @@ class Data extends AbstractHelper
      */
     protected $assetRepo;
 
+    /**
+     * @var JsonSerializer
+     */
+    protected $jsonSerializer;
+
     public function __construct(
         Context $context,
         ModuleList $moduleList,
-        AssetRepository $assetRepo
+        AssetRepository $assetRepo,
+        JsonSerializer $jsonSerializer
     ) {
         parent::__construct($context);
         $this->moduleList = $moduleList;
         $this->assetRepo = $assetRepo;
+        $this->jsonSerializer = $jsonSerializer;
     }
 
     /**
@@ -37,9 +47,16 @@ class Data extends AbstractHelper
     public function getMagentoImportMap()
     {
         $map = [];
+
         foreach ($this->moduleList->getNames() as $module) {
-            $map[$module . '/'] = $this->getViewModuleUrl($module) . '/';
+            $map['imports'][$module . '/'] = $this->getViewModuleUrl($module) . '/';
         }
+
+        // TODO: Inject the import-map.json file from the modules
+        foreach ($this->moduleList->getNames() as $module) {
+            $map = array_merge_recursive($map, $this->getViewModuleImportMap($module));
+        }
+
         return $map;
     }
 
@@ -58,5 +75,21 @@ class Data extends AbstractHelper
         ], $params);
 
         return $this->assetRepo->getUrlWithParams('/', $params);
+    }
+
+    /**
+     * Get the custom import map for a module.
+     *
+     * @param string $module
+     * @return array
+     */
+    public function getViewModuleImportMap($module)
+    {
+        try {
+            $file = $this->assetRepo->createAsset($module . '::import-map.json');
+            return $this->jsonSerializer->unserialize($file->getContent());
+        } catch (LocalizedException | NotFoundException $e) {
+            return [];
+        }
     }
 }

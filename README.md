@@ -23,3 +23,15 @@ Import this JS module doing the following (in any template file).
   console.log(something);
 </script>
 ```
+
+## Named imports
+
+To use named imports (for example jquery), create an `import-map.json` file into the web dir of your Magento module:
+
+```json
+{
+    "imports": {
+        "jquery": "https://cdn.skypack.dev/jquery"
+    }
+}
+```
