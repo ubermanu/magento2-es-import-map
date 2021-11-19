@@ -19,7 +19,7 @@ Import this JS module doing the following (in any template file).
 
 ```html
 <script type="module">
-  import { something } from 'Magento_Theme/js/main.mjs';
+  import { something } from '/Magento_Theme/js/main.mjs';
   console.log(something);
 </script>
 ```
