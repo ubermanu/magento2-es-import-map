@@ -7,5 +7,5 @@
 /** @var \Ubermanu\EsImportMap\Helper\Data $helper */
 $helper = $this->helper(\Ubermanu\EsImportMap\Helper\Data::class);
 
-$content = \Magento\Framework\Serialize\JsonConverter::convert($helper->getModulesImportMap());
+$content = \Magento\Framework\Serialize\JsonConverter::convert($helper->getMagentoImportMap());
 echo $secureRenderer->renderTag('script', ['type' => 'importmap'], $content, false);

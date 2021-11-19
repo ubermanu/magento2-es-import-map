@@ -34,7 +34,7 @@ class Data extends AbstractHelper
      *
      * @return array
      */
-    public function getModulesImportMap()
+    public function getMagentoImportMap()
     {
         $map = [];
         foreach ($this->moduleList->getNames() as $module) {
