@@ -56,6 +56,10 @@ class Data extends AbstractHelper
             $map = array_merge_recursive($map, $this->getViewModuleImportMap($module));
         }
 
+        if (empty($map['scopes'])) {
+            unset($map['scopes']);
+        }
+
         return $map;
     }
 
