@@ -7,10 +7,6 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Module\ModuleList;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 
-/**
- * Class Data
- * @package Ubermanu\EsImportMap\Helper
- */
 class Data extends AbstractHelper
 {
     /**
@@ -23,12 +19,6 @@ class Data extends AbstractHelper
      */
     protected $assetRepo;
 
-    /**
-     * Data constructor.
-     * @param Context $context
-     * @param ModuleList $moduleList
-     * @param AssetRepository $assetRepo
-     */
     public function __construct(
         Context $context,
         ModuleList $moduleList,
@@ -58,19 +48,15 @@ class Data extends AbstractHelper
      *
      * @param string $module
      * @param array $params
-     * @return false|string
+     * @return string
      */
     public function getViewModuleUrl($module, $params = [])
     {
-        try {
-            $params = array_merge([
-                '_secure' => $this->_getRequest()->isSecure(),
-                'module' => $module
-            ], $params);
-            return $this->assetRepo->getUrlWithParams('/', $params);
-        } catch (\Magento\Framework\Exception\LocalizedException $e) {
-            $this->_logger->critical($e);
-            return false;
-        }
+        $params = array_merge([
+            '_secure' => $this->_getRequest()->isSecure(),
+            'module' => $module
+        ], $params);
+
+        return $this->assetRepo->getUrlWithParams('/', $params);
     }
 }
