@@ -13,6 +13,13 @@ use Magento\Framework\View\Asset\Repository as AssetRepository;
 class Data extends AbstractHelper
 {
     /**
+     * File name for import map configuration.
+     * The file contents should match the import-map spec from the W3C.
+     * @see https://wicg.github.io/import-maps/
+     */
+    const IMPORT_MAP_FILENAME = 'import-map.json';
+
+    /**
      * @var ModuleList
      */
     protected $moduleList;
@@ -50,10 +57,10 @@ class Data extends AbstractHelper
 
         // Set the import root to target the theme asset dir
         $map['imports']['/'] = $this->assetRepo->getUrl('') . '/';
+        $map = array_merge_recursive($map, $this->getThemeImportMap());
 
-        // Inject the import-map.json file from the modules
         foreach ($this->moduleList->getNames() as $module) {
-            $map = array_merge_recursive($map, $this->getViewModuleImportMap($module));
+            $map = array_merge_recursive($map, $this->getModuleImportMap($module));
         }
 
         if (empty($map['scopes'])) {
@@ -64,16 +71,30 @@ class Data extends AbstractHelper
     }
 
     /**
+     * Get the custom import map for the current theme.
+     *
+     * @return array
+     */
+    public function getThemeImportMap()
+    {
+        try {
+            $file = $this->assetRepo->createAsset(self::IMPORT_MAP_FILENAME);
+            return $this->jsonSerializer->unserialize($file->getContent());
+        } catch (LocalizedException | NotFoundException $e) {
+            return [];
+        }
+    }
+
+    /**
      * Get the custom import map for a module.
-     * The file contents should match the import-map spec from the W3C.
      *
      * @param string $module
      * @return array
      */
-    public function getViewModuleImportMap($module)
+    public function getModuleImportMap($module)
     {
         try {
-            $file = $this->assetRepo->createAsset($module . '::import-map.json');
+            $file = $this->assetRepo->createAsset($module . '::' . self::IMPORT_MAP_FILENAME);
             return $this->jsonSerializer->unserialize($file->getContent());
         } catch (LocalizedException | NotFoundException $e) {
             return [];
