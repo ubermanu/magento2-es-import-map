@@ -7,5 +7,10 @@
                 <value id="unpkg" type="host">unpkg.com</value>
             </values>
         </policy>
+        <policy id="script-src">
+            <values>
+                <value id="script-blob" type="host">blob:</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>
