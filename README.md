@@ -1,4 +1,4 @@
-# Import map for ES modules
+# Magento 2 - Import map for ES modules
 
 This module generates an import-map script tag to be used with JS modules.<br>
 Cross browser support is provided by https://github.com/guybedford/es-module-shims.
@@ -9,26 +9,28 @@ Cross browser support is provided by https://github.com/guybedford/es-module-shi
 
 ## Example
 
-Create a `main.mjs` file into the `Magento_Theme/web/js` dir of your theme.
+Create a `example.mjs` file into your module `view/frontend/web/mjs` folder:
 
 ```js
-export const something = 'test';
+// app/code/Vendor/Module/view/frontend/web/mjs/example.mjs
+export const something = 'Hello world';
 ```
 
-Import this JS module doing the following (in any template file).
+Add the following to any `*.phtml` template file:
 
 ```html
 <script type="module">
-  import { something } from '/Magento_Theme/js/main.mjs';
-  console.log(something);
+  import { something } from '/Vendor_Module/mjs/example.mjs';
+  alert(something);
 </script>
 ```
 
 ## Named imports
 
-To use named imports (for example jquery), create an `import-map.json` file into the web dir of your Magento module:
+To use named imports, create an `import-map.json` file into the view dir of your module (or theme):
 
 ```json
+// app/code/Vendor/Module/view/frontend/import-map.json
 {
     "imports": {
         "jquery": "https://cdn.skypack.dev/jquery"
