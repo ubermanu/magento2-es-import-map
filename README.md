@@ -29,7 +29,7 @@ Add the following to any `*.phtml` template file:
 
 To use named imports, create an `import-map.json` file into the view dir of your module (or theme):
 
-```json
+```jsonld
 // app/code/Vendor/Module/view/frontend/import-map.json
 {
     "imports": {
