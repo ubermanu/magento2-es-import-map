@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ubermanu\EsImportMap\Model\Theme;
 
 use Magento\Framework\Component\ComponentRegistrar;
-use Magento\Framework\Component\ComponentRegistrarInterface;
 
 class Dir
 {
     /**#@+
      * Directories within themes
      */
-    const THEME_ETC_DIR = 'etc';
-    const THEME_I18N_DIR = 'i18n';
-    const THEME_WEB_DIR = 'web';
+    public const THEME_ETC_DIR = 'etc';
+    public const THEME_I18N_DIR = 'i18n';
+    public const THEME_WEB_DIR = 'web';
     /**#@-*/
 
     private const ALLOWED_DIR_TYPES = [
@@ -21,26 +22,20 @@ class Dir
         self::THEME_WEB_DIR => true
     ];
 
-    /**
-     * @var ComponentRegistrarInterface
-     */
-    protected $componentRegistrar;
-
     public function __construct(
-        ComponentRegistrarInterface $componentRegistrar
+        protected \Magento\Framework\Component\ComponentRegistrarInterface $componentRegistrar
     ) {
-        $this->componentRegistrar = $componentRegistrar;
     }
 
     /**
-     * Retrieve full path to a directory of certain type within a theme
+     * Retrieve full path to a directory of certain type within a theme.
      *
-     * @param string $themeName Fully-qualified theme name
-     * @param string $type Type of theme's directory to retrieve
+     * @param string $themeName
+     * @param string $type
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function getDir($themeName, $type = '')
+    public function getDir(string $themeName, string $type = ''): string
     {
         $path = $this->componentRegistrar->getPath(ComponentRegistrar::THEME, $themeName);
 
